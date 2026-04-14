@@ -1,0 +1,55 @@
+{
+  "name": "prompt-builder",
+  "displayName": "Prompt Builder",
+  "description": "Visually select rules from CLAUDE.md and /skills/ to build prompts",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:promptBuilder.openPanel",
+    "onView:promptBuilderView",
+    "onStartupFinished"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "promptBuilder.openPanel",
+        "title": "Prompt Builder: Open Panel"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "promptBuilder",
+          "title": "Prompt Builder",
+          "icon": "media/prompt-builder.svg"
+        }
+      ]
+    },
+    "views": {
+      "promptBuilder": [
+        {
+          "type": "webview",
+          "id": "promptBuilderView",
+          "name": "Prompt Builder"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "test": "node test/webview-regression.js",
+    "package": "npx @vscode/vsce package --no-dependencies"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^2.32.0"
+  },
+  "publisher": "local-dev",
+  "dependencies": {
+    "js-yaml": "^4.1.1"
+  }
+}
