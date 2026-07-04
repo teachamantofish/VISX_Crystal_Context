@@ -37,6 +37,17 @@ const mockGlobalState = {
   },
 };
 
+let createdTerminals = [];
+function makeMockTerminal(name) {
+  return {
+    name,
+    shown: false,
+    sentText: [],
+    show() { this.shown = true; },
+    sendText(text, shouldExecute) { this.sentText.push({ text, shouldExecute }); },
+  };
+}
+
 const mockVscode = {
   window: {
     registerWebviewViewProvider(id, provider) {
@@ -45,6 +56,12 @@ const mockVscode = {
     },
     showInformationMessage() {},
     createOutputChannel() { return { appendLine() {}, show() {} }; },
+    activeTerminal: undefined,
+    createTerminal(name) {
+      const t = makeMockTerminal(name);
+      createdTerminals.push(t);
+      return t;
+    },
   },
   commands: {
     registerCommand() { return { dispose() {} }; },
@@ -174,6 +191,58 @@ if (!t4msg) {
 } else {
   fail('unexpected command: ' + t4msg.command, JSON.stringify(t4msg));
 }
+
+// ── Test 5: sendToTerminal creates a terminal when none is active ────────────
+console.log('\n[5] sendToTerminal (no active terminal)');
+mockWebview.html.includes('btnSendTerminal')
+  ? pass('Send to Terminal button present in HTML')
+  : fail('btnSendTerminal missing from webview HTML');
+mockWebview.html.includes("command: 'sendToTerminal'")
+  ? pass('webview script posts sendToTerminal')
+  : fail('sendToTerminal postMessage missing from webview script');
+
+createdTerminals = [];
+mockVscode.window.activeTerminal = undefined;
+receivedMessageHandler({ command: 'sendToTerminal', text: 'hello prompt' });
+if (createdTerminals.length === 1) {
+  pass('createTerminal called when no active terminal');
+  const t = createdTerminals[0];
+  t.name === 'Crystal Context'
+    ? pass('terminal named "Crystal Context"')
+    : fail('unexpected terminal name: ' + t.name);
+  t.shown
+    ? pass('terminal.show() called')
+    : fail('terminal.show() NOT called');
+  if (t.sentText.length === 1 && t.sentText[0].text === 'hello prompt') {
+    pass('sendText received the prompt text');
+  } else {
+    fail('sendText not called with prompt', JSON.stringify(t.sentText));
+  }
+  t.sentText[0] && t.sentText[0].shouldExecute === false
+    ? pass('sendText does not auto-execute (shouldExecute=false)')
+    : fail('sendText must pass shouldExecute=false so the user confirms with Enter');
+} else {
+  fail('expected exactly 1 created terminal, got ' + createdTerminals.length);
+}
+
+// ── Test 6: sendToTerminal reuses the active terminal ────────────────────────
+console.log('\n[6] sendToTerminal (active terminal exists)');
+createdTerminals = [];
+const activeTerm = makeMockTerminal('user-shell');
+mockVscode.window.activeTerminal = activeTerm;
+receivedMessageHandler({ command: 'sendToTerminal', text: 'second prompt' });
+createdTerminals.length === 0
+  ? pass('no new terminal created')
+  : fail('should reuse active terminal, but createTerminal was called');
+if (activeTerm.sentText.length === 1 && activeTerm.sentText[0].text === 'second prompt') {
+  pass('active terminal received the prompt text');
+} else {
+  fail('active terminal did not receive text', JSON.stringify(activeTerm.sentText));
+}
+activeTerm.shown
+  ? pass('active terminal brought into view')
+  : fail('terminal.show() NOT called on active terminal');
+mockVscode.window.activeTerminal = undefined;
 
 // ── Done ─────────────────────────────────────────────────────────────────────
 console.log('');

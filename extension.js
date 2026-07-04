@@ -146,6 +146,9 @@ class PromptBuilderViewProvider {
         case 'sendToChat':
           await this._sendToChat(msg.text);
           break;
+        case 'sendToTerminal':
+          this._sendToTerminal(msg.text);
+          break;
         case 'copyToClipboard':
           await vscode.env.clipboard.writeText(msg.text);
           vscode.window.showInformationMessage('Prompt copied to clipboard!');
@@ -352,6 +355,13 @@ class PromptBuilderViewProvider {
     }
     await vscode.env.clipboard.writeText(text);
     vscode.window.showInformationMessage('Chat unavailable — prompt copied to clipboard.');
+  }
+
+  _sendToTerminal(text) {
+    const terminal = vscode.window.activeTerminal
+      ?? vscode.window.createTerminal('Crystal Context');
+    terminal.show();
+    terminal.sendText(text, false);  // type into the prompt, let the user press Enter
   }
 
   _getHtml() {
@@ -735,6 +745,7 @@ class PromptBuilderViewProvider {
   <textarea id="output" placeholder="Check items above…" spellcheck="false"></textarea>
   <div class="action-row">
     <button class="btn-primary" id="btnSend">⬆ Send to Chat</button>
+    <button class="btn-secondary" id="btnSendTerminal">⮞ Send to Terminal</button>
     <button class="btn-secondary" id="btnCopy">Copy</button>
   </div>
 </div>
@@ -802,6 +813,7 @@ class PromptBuilderViewProvider {
   document.getElementById('btnReload').addEventListener('click', handleReload);
   document.getElementById('btnClear').addEventListener('click', clearAll);
   document.getElementById('btnSend').addEventListener('click', sendToChat);
+  document.getElementById('btnSendTerminal').addEventListener('click', sendToTerminal);
   document.getElementById('btnCopy').addEventListener('click', copyPrompt);
   document.getElementById('output').addEventListener('input', e => {
     if (syncingOutput) return;
@@ -1157,6 +1169,11 @@ class PromptBuilderViewProvider {
   function sendToChat() {
     const text = document.getElementById('output').value.trim();
     if (text) vscode.postMessage({ command: 'sendToChat', text });
+  }
+
+  function sendToTerminal() {
+    const text = document.getElementById('output').value.trim();
+    if (text) vscode.postMessage({ command: 'sendToTerminal', text });
   }
 
   function copyPrompt() {
