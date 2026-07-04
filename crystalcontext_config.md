@@ -50,9 +50,13 @@ Claude Session:
     - "/skills: List available skills."
     - "/config: View status, settings, usage, stats."
 
-ChatGPT:
-  skills:
-    - "Not explored..."
+Notepad:
+  Scope:
+    - label: "Notepad file"
+      control: radio
+      options:
+        - "Project: <project>/notes.md"
+        - "Global: <User>/.claude/notes.md"
 
 
 

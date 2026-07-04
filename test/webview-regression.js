@@ -2,14 +2,19 @@ const assert = require('assert');
 const fs = require('fs');
 
 function loadWebviewHtml() {
-  const src = fs.readFileSync('extension.js', 'utf8');
+  const src = fs.readFileSync('extension.js', 'utf8').replace(/\r\n/g, '\n');
   const start = src.indexOf('return `<!DOCTYPE html>');
   const end = src.indexOf('`;\n  }\n}', start);
   if (start === -1 || end === -1) {
     throw new Error('Could not locate webview HTML template in extension.js');
   }
-  const tpl = src.slice(start + 'return '.length, end + 1);
-  return Function(`return ${tpl}`)();
+  const raw = src.slice(start + 'return '.length, end + 1);
+  if (raw[0] !== '`' || raw[raw.length - 1] !== '`') {
+    throw new Error('Expected webview template literal delimiters');
+  }
+  const inner = raw.slice(1, -1);
+  // Avoid evaluating the extension template (would need `nonce` in scope for ${nonce})
+  return inner.replace(/\$\{nonce\}/g, '__TEST_NONCE__');
 }
 
 function normalizeOutput(text) {
@@ -49,14 +54,17 @@ function buildFinalOutput(selectedGroups, checked, outputs, userSuffix) {
 }
 
 const html = loadWebviewHtml();
-const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+const scriptMatch = html.match(/<script[^>]*>([\s\S]*?)<\/script>/);
 assert(scriptMatch, 'webview script should exist');
 const script = scriptMatch[1];
 
 new Function(script);
 
 assert(!html.includes('readonly></textarea>'), 'prompt textarea should remain editable');
-assert(script.includes("replace(/\\s+/g, ' ').trim()"), 'normalizeOutput should collapse whitespace, not strip letters');
+assert(
+  script.includes("replace(/\\\\s+/g, ' ').trim()") || script.includes("replace(/\\s+/g, ' ').trim()"),
+  'normalizeOutput should collapse whitespace, not strip letters'
+);
 
 const outputs = {
   never: '(Never use GIT cmds unless explicitly asked)',

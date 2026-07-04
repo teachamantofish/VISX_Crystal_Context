@@ -1,8 +1,8 @@
 {
-  "name": "prompt-builder",
-  "displayName": "Prompt Builder",
+  "name": "crystal-context",
+  "displayName": "Crystal Context",
   "description": "Visually select rules from CLAUDE.md and /skills/ to build prompts",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -14,19 +14,19 @@
     "onView:promptBuilderView",
     "onStartupFinished"
   ],
-  "main": "./extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "promptBuilder.openPanel",
-        "title": "Prompt Builder: Open Panel"
+        "title": "Crystal Context: Open Panel"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
           "id": "promptBuilder",
-          "title": "Prompt Builder",
+          "title": "Crystal Context",
           "icon": "media/prompt-builder.svg"
         }
       ]
@@ -36,18 +36,24 @@
         {
           "type": "webview",
           "id": "promptBuilderView",
-          "name": "Prompt Builder"
+          "name": "Crystal Context"
         }
       ]
     }
   },
   "scripts": {
-    "test": "node test/webview-regression.js",
-    "package": "npx @vscode/vsce package --no-dependencies"
+    "build": "npx esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node",
+    "watch": "npx esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node --watch",
+    "package": "npm run build -- --minify && npx @vscode/vsce package --no-dependencies",
+    "test": "npm run build && node test/webview-regression.js && node test/webview-console-smoke.js && node test/notepad-disk-roundtrip.js && node test/extension-test.js",
+    "improver:loop": "python Code_Improver/run_loop.py",
+    "release": "npm run improver:loop"
   },
   "devDependencies": {
-    "@vscode/vsce": "^2.32.0"
+    "@vscode/vsce": "^2.32.0",
+    "jsdom": "^24.1.3"
   },
+  "icon": "media/icon.png",
   "publisher": "local-dev",
   "dependencies": {
     "js-yaml": "^4.1.1"

@@ -1,4 +1,6 @@
-# AI UI Manager — Dev Guide
+# Crystal Context VSIX extension — Dev Guide
+
+A customizable Cursor and VSC extension for personal use. 
 
 ## Local Development Setup
 
@@ -17,19 +19,19 @@ Or: **Run → Start Without Debugging**
 In the new Extension Development Host (EDH) window:
 
 1. Open Command Palette: `Ctrl+Shift+P`
-2. Run: `Prompt Builder: Open Panel` (command: `promptBuilder.openPanel`)
-3. If not visible, type `Prompt Builder` — should appear from `package.json` contributions
+2. Run: `Crystal Context: Open Panel` (command: `promptBuilder.openPanel`)
+3. If not visible, type `Crystal Context` — should appear from `package.json` contributions
 
 **If EDH window appears empty:**
 
 - EDH opens with clean workspace; view may be in Activity Bar
 - Show Activity Bar: **View → Appearance → Show Activity Bar**
-- Click Prompt Builder icon in Activity Bar
+- Click Crystal Context icon in Activity Bar
 
 **If panel still doesn't appear:**
 
 - EDH → **Help → Toggle Developer Tools** → check console for activation errors
-- EDH Command Palette → `Developer: Show Running Extensions` → verify `prompt-builder` loaded
+- EDH Command Palette → `Developer: Show Running Extensions` → verify `crystal-context` loaded
 - If `CLAUDE.md` required: **File → Open Folder** in EDH → select workspace containing `CLAUDE.md`
 
 ## Iterate Without Packaging

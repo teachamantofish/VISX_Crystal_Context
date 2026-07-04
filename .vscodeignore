@@ -1,0 +1,15 @@
+node_modules/**
+test/**
+.vscode/**
+extension.js
+package-lock.json
+Code_Improver/**
+dev/**
+.claude/**
+.codex
+.codex/**
+.gitignore
+build.sh
+crystalcontext_webview_debug.log
+crystalcontext_notepad.txt
+*.vsix
