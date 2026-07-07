@@ -1,17 +1,1 @@
-Reminders: 
-
-- Force the agent to write tasks and binary evals before work. 
-- Force the agent to use micro loops not full tests
-
-
-
-To do: 
-
-- Figure out how monitor loop scope in real time
-- Convert Code Improver into a skill
-- Integrate webdev docs into main readme (and skill). 
-- Figure out how to port webview console errors to the terminal output so the agent can read it. 
-
-
-
 cursor --install-extension .\crystal-context-0.0.4.vsix --force
