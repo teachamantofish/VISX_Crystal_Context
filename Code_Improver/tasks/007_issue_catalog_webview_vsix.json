@@ -1,0 +1,40 @@
+{
+  "id": "007",
+  "title": "Issue catalog (webview / VSIX “nothing loads”) — traceability to evals",
+  "status": "completed",
+  "priority": "high",
+  "description": "Formal task for dev/WEBVIEW_NON_LOADING_RUNBOOK.md: each catalog row maps to success criteria and automated checks where possible. Runtime-only items (open a folder, add crystalcontext_config.md, fix YAML by hand) stay manual; host code paths and packaging are gated by evals.",
+  "success_criteria": [
+    "Runbook dev/WEBVIEW_NON_LOADING_RUNBOOK.md exists with the full 1–11 table",
+    "1 — Webview signals ready synchronously with idempotent guard (embedded webview event timing)",
+    "2–3 — Stale dist/VSIX prevented: main→dist, build+test+package in release loop (vsix_freshness_eval, webview_reliability rel_dist)",
+    "4 — Host posts noWorkspace when Local scope has no workspace (static: message path in extension.js; integration: extension-test)",
+    "5 — Host posts noFile when config file missing",
+    "6 — Host posts parseError on bad YAML",
+    "7 — webviewDiag pipeline to Output + log file",
+    "8 — Session-start log line on ready",
+    "9 — .vscodeignore keeps dev/source out of VSIX",
+    "10 — No esbuild-breaking backticks in webview template comments (conservative static check + build in loop)",
+    "11 — extension-test.js in npm test with Uri/globalState/onDidChangeWorkspaceFolders mocks",
+    "Full loop (extension_eval, webview_reliability_eval, vsix_freshness_eval, issue_catalog_eval) passes"
+  ],
+  "evals": [
+    "issue_catalog_eval.py: cat_doc_runbook_present",
+    "issue_catalog_eval.py: cat_doc_runbook_has_eleven_rows",
+    "issue_catalog_eval.py: cat_row01_ready_synchronous_send",
+    "issue_catalog_eval.py: cat_row02_main_points_dist",
+    "issue_catalog_eval.py: cat_row04_no_workspace_branch",
+    "issue_catalog_eval.py: cat_row05_no_file_branch",
+    "issue_catalog_eval.py: cat_row06_parse_error_branch",
+    "issue_catalog_eval.py: cat_row07_webview_diag",
+    "issue_catalog_eval.py: cat_row08_session_start",
+    "issue_catalog_eval.py: cat_row09_vscodeignore_excludes_dev",
+    "issue_catalog_eval.py: cat_row10_no_backticks_in_js_line_comments_inside_template",
+    "issue_catalog_eval.py: cat_row11_extension_test_in_repo",
+    "issue_catalog_eval.py: cat_row11_npm_test_runs_extension_test",
+    "extension_eval.py: npm_test_webview_regression",
+    "webview_reliability_eval.py: rel_dist_bundle_not_stale_vs_extension",
+    "vsix_freshness_eval.py: vsix_mtime_fresh"
+  ],
+  "notes": "Task 006 is implementation/regression prevention; 007 is catalog↔eval traceability. Rows 4–6 user actions (folder, files, YAML) cannot be fully automated here; host branches + extension-test cover the extension side."
+}

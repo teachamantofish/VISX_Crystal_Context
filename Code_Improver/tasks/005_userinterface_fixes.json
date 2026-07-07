@@ -1,0 +1,32 @@
+{
+  "id": "005",
+  "title": "Enhancements to the user interface",
+  "status": "completed",
+  "priority": "medium",
+  "description": "Branding, layout, scope vs prompt field, Notepad file naming and controls.",
+  "success_criteria": [
+    "The string 'Prompt Builder' appears nowhere in extension.js, package.json, or readme.md",
+    "project/global radio buttons are in a row and wrap when needed",
+    "Selecting a scope does not rebuild the assembled prompt field",
+    "Assembled prompt textarea is fixed height (~75px) and does not steal space from the panel list; Notepad editor uses flex to fill the Notepad tab",
+    "Notepad saves to crystalcontext_notepad.txt for Local (project) and Global (~/.claude)",
+    "Persistence across reload via file on disk",
+    "Notepad Copy copies textarea to clipboard; Clear clears file and UI",
+    "No duplicate Prompt/Notepad button row (tabs from YAML only)"
+  ],
+  "evals": [
+    "ui_eval.py: ui_no_prompt_builder_in_extension_js",
+    "ui_eval.py: ui_no_prompt_builder_in_package_json",
+    "ui_eval.py: ui_no_prompt_builder_in_readme_md",
+    "ui_eval.py: ui_config_scope_row_wraps",
+    "ui_eval.py: ui_no_duplicate_prompt_notepad_bar",
+    "ui_eval.py: ui_config_scope_does_not_rebuild_prompt",
+    "ui_eval.py: ui_prompt_textarea_fixed_height",
+    "ui_eval.py: ui_notepad_editor_flex_fill",
+    "ui_eval.py: ui_notepad_txt_filename",
+    "notepad_eval.py: notepad_filename_constant",
+    "notepad_eval.py: notepad_handlers",
+    "extension_eval.py: npm_test_webview_regression"
+  ],
+  "notes": "Micro-loop: filter by evals above; full loop uses all eval_commands in Code_Improver/config.json. Run: npm run build then each eval script, or npm run improver:loop."
+}

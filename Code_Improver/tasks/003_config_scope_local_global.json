@@ -1,0 +1,36 @@
+{
+  "id": "003",
+  "title": "Config source: project root vs user .claude (crystalcontext_config.md)",
+  "status": "completed",
+  "priority": "high",
+  "description": "Choose where crystalcontext_config.md is loaded from: workspace root (Local) or user profile .claude folder (Global). UI uses two radios; selection persists in globalState; file watcher refreshes on changes.",
+  "success_criteria": [
+    "Two clickable radios appear: Local (project root) and Global (.claude)",
+    "Radio labels clearly indicate project vs .claude folder",
+    "Extension handles setConfigScope from the webview",
+    "Webview posts setConfigScope when the user changes scope",
+    "Scope choice persists via globalState (crystalContext.configScope)",
+    "Local scope resolves crystalcontext_config.md under the workspace folder",
+    "Global scope resolves crystalcontext_config.md under os.homedir()/.claude",
+    "Config filename remains crystalcontext_config.md",
+    "Changing the file on disk triggers reload (_setupConfigWatcher)",
+    "loadItems messages include configScope so the UI stays in sync",
+    "Dedicated configScope message updates radios when the host loads",
+    "Opening/closing workspace folders triggers reload for Local scope"
+  ],
+  "evals": [
+    "scope_eval.py: scope_ui_two_radios_local_global",
+    "scope_eval.py: scope_ui_labels_project_and_home",
+    "scope_eval.py: scope_message_handler_setConfigScope",
+    "scope_eval.py: scope_webview_posts_setConfigScope",
+    "scope_eval.py: scope_globalstate_key",
+    "scope_eval.py: scope_resolve_local_workspace_path",
+    "scope_eval.py: scope_resolve_global_homedir",
+    "scope_eval.py: scope_constants_config_filename",
+    "scope_eval.py: scope_setup_config_watcher",
+    "scope_eval.py: scope_loaditems_includes_configScope",
+    "scope_eval.py: scope_sync_message_configScope",
+    "scope_eval.py: scope_on_did_change_workspace_folders"
+  ],
+  "notes": "Automated checks are static (extension.js). Manual: verify both paths in EDH with files present; confirm no webview console errors."
+}

@@ -1,0 +1,14 @@
+{
+  "id": "001",
+  "title": "Baseline: extension builds and webview regression passes",
+  "status": "completed",
+  "priority": "high",
+  "description": "Establish Code_Improver evals for this VSIX: npm run build, npm test (webview-regression), and repo file checks.",
+  "success_criteria": [
+    "python Code_Improver/evals/extension_eval.py exits 0 and latest_extension.json shows all_passed"
+  ],
+  "evals": [
+    "extension_eval.py: npm_test_webview_regression"
+  ],
+  "notes": "Bootstrap task; extension_eval.py covers full baseline suite."
+}

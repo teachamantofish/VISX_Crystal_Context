@@ -1,0 +1,38 @@
+{
+  "id": "006",
+  "title": "Webview load reliability & non-loading VSIX regression prevention",
+  "status": "completed",
+  "priority": "high",
+  "description": "The sidebar webview has repeatedly stuck on Loading or shipped broken in VSIX form. Capture root causes, document them, and lock in static + npm tests so regressions fail CI/evals.",
+  "success_criteria": [
+    "Runbook lists known failure modes and mitigations (dev/WEBVIEW_NON_LOADING_RUNBOOK.md)",
+    "Webview posts ready synchronously after listeners are wired (not only on window load)",
+    "Host gates _loadItems on _isWebviewReady and handles ready before _loadItems",
+    "Diagnostics: webviewDiag forwarding, session-start log line, dual log paths (workspace + globalStorage)",
+    "package.json main points to dist/extension.js; .vscodeignore excludes unpacked extension.js from VSIX",
+    "npm test includes extension-test.js (ready → loadItems / noWorkspace integration)",
+    "dist/extension.js is not older than extension.js (webview_reliability check)",
+    "VSIX build is automated in the loop: vsix_freshness_eval runs npm run package and verifies a fresh *.vsix (or SKIP_VSIX_PACKAGE=1 for dist-only check)",
+    "npm run release runs the full improver loop including VSIX step",
+    "Code_Improver config includes webview_reliability_eval.py and vsix_freshness_eval.py"
+  ],
+  "evals": [
+    "webview_reliability_eval.py: rel_dist_bundle_not_stale_vs_extension",
+    "webview_reliability_eval.py: rel_ready_synchronous_send",
+    "webview_reliability_eval.py: rel_ready_idempotent_guard",
+    "webview_reliability_eval.py: rel_host_ready_then_loaditems",
+    "webview_reliability_eval.py: rel_loaditems_gated_by_webview_ready",
+    "webview_reliability_eval.py: rel_webview_diag_pipeline",
+    "webview_reliability_eval.py: rel_session_start_logged",
+    "webview_reliability_eval.py: rel_log_append_dual_location",
+    "webview_reliability_eval.py: rel_package_main_is_dist_bundle",
+    "webview_reliability_eval.py: rel_vscodeignore_excludes_source_extension_js",
+    "webview_reliability_eval.py: rel_npm_test_includes_extension_integration",
+    "webview_reliability_eval.py: rel_improver_loop_script_present",
+    "webview_reliability_eval.py: rel_release_script_present",
+    "vsix_freshness_eval.py: vsix_npm_package_exit_zero",
+    "vsix_freshness_eval.py: vsix_file_exists",
+    "vsix_freshness_eval.py: vsix_mtime_fresh"
+  ],
+  "notes": "See dev/WEBVIEW_NON_LOADING_RUNBOOK.md. Use npm run release before installing a VSIX. Set SKIP_VSIX_PACKAGE=1 to skip packaging in vsix_freshness_eval."
+}

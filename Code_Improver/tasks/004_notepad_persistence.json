@@ -1,0 +1,28 @@
+{
+  "id": "004",
+  "title": "Notepad tab: large text field, persist notes to disk",
+  "status": "completed",
+  "priority": "medium",
+  "description": "Notepad main tab with large textarea; crystalcontext_notepad.txt in project root (Local) or user profile .claude (Global); debounced save; Copy/Clear; errors shown in-panel.",
+  "success_criteria": [
+    "A dedicated Notepad tab is visible in the webview",
+    "User can switch between Prompt and Notepad without reloading the window",
+    "Notepad uses a large multi-line textarea",
+    "Notes save to crystalcontext_notepad.txt per Local/Global scope",
+    "Saving is debounced (~400ms) while typing",
+    "Reloading restores content from disk",
+    "Read/write failures show in-panel (notepadError)",
+    "npm test runs webview-console-smoke (no console.error from webview script)",
+    "Prompt builder YAML flow still works on Prompt tab"
+  ],
+  "evals": [
+    "notepad_eval.py: notepad_filename_constant",
+    "notepad_eval.py: notepad_handlers",
+    "notepad_eval.py: notepad_dom_ids",
+    "notepad_eval.py: notepad_debounce_save",
+    "notepad_eval.py: notepad_main_tabs",
+    "notepad_eval.py: notepad_messages_to_host",
+    "notepad_eval.py: notepad_npm_test_runs_console_smoke"
+  ],
+  "notes": "extension_eval npm test executes webview-regression + webview-console-smoke."
+}

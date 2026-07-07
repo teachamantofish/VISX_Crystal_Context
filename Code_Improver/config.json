@@ -1,0 +1,32 @@
+{
+  "project_name": "crystal_context",
+  "loop_mode": "task",
+  "full_loop_every": 5,
+  "task_dir": "Code_Improver/tasks",
+  "artifacts_dir": "Code_Improver/artifacts",
+  "summary_dir": "Code_Improver/summaries",
+  "results_file": "Code_Improver/results.tsv",
+  "runner_commands": [
+    "npm run build"
+  ],
+  "eval_commands": [
+    "python Code_Improver/evals/extension_eval.py",
+    "python Code_Improver/evals/brand_eval.py",
+    "python Code_Improver/evals/scope_eval.py",
+    "python Code_Improver/evals/notepad_eval.py",
+    "python Code_Improver/evals/ui_eval.py",
+    "python Code_Improver/evals/webview_reliability_eval.py",
+    "python Code_Improver/evals/vsix_freshness_eval.py",
+    "python Code_Improver/evals/issue_catalog_eval.py"
+  ],
+  "primary_metric": {
+    "field": "score",
+    "direction": "higher"
+  },
+  "required_gates": [
+    {
+      "field": "all_passed",
+      "equals": true
+    }
+  ]
+}

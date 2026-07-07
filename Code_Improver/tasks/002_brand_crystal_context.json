@@ -1,0 +1,17 @@
+{
+  "id": "002",
+  "title": "Rename product to Crystal Context (package.json, views, commands)",
+  "status": "todo",
+  "priority": "high",
+  "description": "Align display name, activity bar title, and packaged VSIX identity with Crystal Context per project goals.",
+  "success_criteria": [
+    "package.json displayName is Crystal Context",
+    "contributes.viewsContainers and contributes.views use Crystal Context for sidebar / panel titles",
+    "Built .vsix installs without conflicting with old Prompt Builder branding in UI"
+  ],
+  "evals": [
+    "brand_eval.py: brand_package_displayname_crystal_context",
+    "brand_eval.py: brand_contributes_views_crystal_context"
+  ],
+  "notes": "brand_eval.py gates criteria 1–2; extend evals when you add an automated check for criterion 3."
+}
