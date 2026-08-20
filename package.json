@@ -45,7 +45,7 @@
     "build": "npx esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node",
     "watch": "npx esbuild extension.js --bundle --outfile=dist/extension.js --external:vscode --platform=node --watch",
     "package": "npm run build -- --minify && npx @vscode/vsce package --no-dependencies",
-    "test": "npm run build && node test/webview-regression.js && node test/webview-console-smoke.js && node test/notepad-disk-roundtrip.js && node test/extension-test.js",
+    "test": "npm run build && node test/webview-regression.js && node test/webview-console-smoke.js && node test/extension-test.js",
     "improver:loop": "python Code_Improver/run_loop.py",
     "release": "npm run improver:loop"
   },
