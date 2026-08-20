@@ -49,6 +49,9 @@ function finish() {
   assert(doc.getElementById('panels'), '#panels exists');
   assert(doc.getElementById('output'), '#output exists');
   assert(doc.getElementById('tabsBar'), '#tabsBar exists');
+  assert(doc.getElementById('btnCreateLocal'), '#btnCreateLocal exists');
+  assert(doc.getElementById('btnEditConfig'), '#btnEditConfig exists');
+  assert.strictEqual(doc.getElementById('labelScopeLocal').textContent.replace(/\s+/g, ' ').trim(), 'Workspace');
   assert(!doc.querySelector('.main-tab-bar'), 'duplicate Prompt/Notepad bar removed');
   assert(!doc.getElementById('viewBuilder'), 'legacy viewBuilder removed');
   assert(!doc.getElementById('viewNotepad'), 'legacy viewNotepad removed');

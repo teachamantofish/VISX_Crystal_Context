@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash build.sh)",
+      "Bash(node test/extension-test.js)",
+      "Bash(npm run:*)",
+      "Bash(node -e \"require\\('./dist/extension.js'\\)\")",
+      "Bash(node -e ':*)",
+      "Bash(ls -la \"C:/GIT/harness-root/VISX_Crystal_Context/\"*.vsix)",
+      "Bash(unzip -p crystal-context-0.0.2.vsix \"extension/dist/extension.js\")",
+      "Read(//tmp/**)",
+      "Skill(update-config)",
+      "Bash(cat Code_Improver/*.*)",
+      "Bash(node -e \"require\\('./extension.js'\\)\")",
+      "Bash(node test/webview-regression.js)",
+      "Bash(npx vsce *)"
+    ]
+  }
+}

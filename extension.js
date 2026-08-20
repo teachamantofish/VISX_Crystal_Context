@@ -1,3 +1,8 @@
+/**
+ * Crystal Context VS Code extension:
+ * renders the sidebar webview, loads workspace/global config, and handles
+ * file-backed actions for config editing, notepad persistence, and prompt output.
+ */
 const vscode = require('vscode');
 const fs = require('fs');
 const os = require('os');
@@ -59,6 +64,18 @@ class PromptBuilderViewProvider {
     const { filePath } = this._resolveScopedPath(NOTEPAD_FILE);
     if (!filePath) throw new Error('No workspace folder open — open a folder for Local notepad, or choose Global (.claude).');
     return filePath;
+  }
+
+  // Resolve the workspace config path directly; throws when no workspace is open.
+  _localConfigPath() {
+    const wf = vscode.workspace.workspaceFolders;
+    if (!wf || !wf.length) throw new Error('No workspace folder open — open a folder before creating a workspace config.');
+    return path.join(wf[0].uri.fsPath, CONFIG_FILE);
+  }
+
+  // Resolve the global config path directly.
+  _globalConfigPath() {
+    return path.join(os.homedir(), GLOBAL_CONFIG_DIR, CONFIG_FILE);
   }
 
   _setupConfigWatcher() {
@@ -139,6 +156,12 @@ class PromptBuilderViewProvider {
         case 'refresh':
           this._loadItems();
           break;
+        case 'createLocalConfig':
+          await this._createLocalConfig();
+          break;
+        case 'editConfig':
+          await this._openConfigInEditor();
+          break;
         case 'changeTab':
           this._selectedTab = msg.tab || null;
           this._loadItems();
@@ -183,6 +206,38 @@ class PromptBuilderViewProvider {
     });
 
     this._setupConfigWatcher();
+  }
+
+  // Copy the global config into the workspace root and switch the UI to Workspace scope.
+  async _createLocalConfig() {
+    try {
+      const globalPath = this._globalConfigPath();
+      const localPath = this._localConfigPath();
+      if (!fs.existsSync(globalPath)) throw new Error(`Global config not found: ${globalPath}`);
+      if (fs.existsSync(localPath)) throw new Error(`Workspace config already exists: ${localPath}`);
+      this._ensureDir(path.dirname(localPath));
+      fs.copyFileSync(globalPath, localPath, fs.constants.COPYFILE_EXCL);
+      await this._context.globalState.update(CONFIG_SCOPE_KEY, 'local');
+      this._setupConfigWatcher();
+      this._syncConfigScopeToWebview();
+      this._loadItems();
+      vscode.window.showInformationMessage(`Created workspace config: ${localPath}`);
+    } catch (err) {
+      vscode.window.showErrorMessage(`Create local failed: ${errMsg(err)}`);
+    }
+  }
+
+  // Open the current config file in the editor pane for direct editing.
+  async _openConfigInEditor() {
+    try {
+      const { configPath } = this._resolveConfigPathInfo();
+      if (!configPath) throw new Error('No workspace folder open — open a folder before editing the workspace config.');
+      if (!fs.existsSync(configPath)) throw new Error(`Config file not found: ${configPath}`);
+      const document = await vscode.workspace.openTextDocument(configPath);
+      await vscode.window.showTextDocument(document, { preview: false });
+    } catch (err) {
+      vscode.window.showErrorMessage(`Edit config failed: ${errMsg(err)}`);
+    }
   }
 
   _loadItems() {
@@ -468,6 +523,12 @@ class PromptBuilderViewProvider {
     overflow-x: auto;
   }
 
+  .scope-actions {
+    display: inline-flex;
+    gap: 6px;
+    margin-left: auto;
+  }
+
   .tab-btn {
     background: transparent;
     color: var(--vscode-foreground);
@@ -495,6 +556,13 @@ class PromptBuilderViewProvider {
     border-radius: 2px;
   }
   .top-bar button:hover { background: var(--vscode-button-secondaryHoverBackground); }
+  .top-bar .btn-refresh {
+    font-size: 15px;
+    line-height: 1;
+    padding: 5px 12px;
+    min-width: 40px;
+    font-weight: 700;
+  }
   .spacer { flex: 1; }
 
   .panels {
@@ -723,14 +791,18 @@ class PromptBuilderViewProvider {
 
 <div class="config-scope-row" id="configScopeRow" title="Where to load crystalcontext_config.md from">
   <span class="scope-label">Config</span>
-  <label class="scope-radio-label" id="labelScopeLocal"><input type="radio" name="configScope" id="radioScopeLocal" value="local"><span> Local (project root)</span></label>
+  <label class="scope-radio-label" id="labelScopeLocal"><input type="radio" name="configScope" id="radioScopeLocal" value="local"><span> Workspace</span></label>
   <label class="scope-radio-label" id="labelScopeGlobal"><input type="radio" name="configScope" id="radioScopeGlobal" value="global"><span> Global (.claude)</span></label>
+  <div class="scope-actions">
+    <button type="button" class="btn-secondary" id="btnCreateLocal" title="Copy the global config into the workspace root">Create local</button>
+  </div>
 </div>
 
 <div class="top-bar">
   <div id="tabsBar" class="tabs-bar" title="Select workflow tab"></div>
   <div class="spacer"></div>
-  <button id="btnReload" title="Reload crystalcontext_config.md and clear selections">↺</button>
+  <button id="btnEditConfig" title="Open the current config file in the editor">Edit</button>
+  <button id="btnReload" class="btn-refresh" title="Reload crystalcontext_config.md and clear selections">↺</button>
 </div>
 
 <div class="panels" id="panels">
@@ -810,6 +882,8 @@ class PromptBuilderViewProvider {
   });
 
   document.getElementById('tabsBar').addEventListener('click', onTabClick);
+  document.getElementById('btnCreateLocal').addEventListener('click', createLocalConfig);
+  document.getElementById('btnEditConfig').addEventListener('click', editConfig);
   document.getElementById('btnReload').addEventListener('click', handleReload);
   document.getElementById('btnClear').addEventListener('click', clearAll);
   document.getElementById('btnSend').addEventListener('click', sendToChat);
@@ -1164,6 +1238,14 @@ class PromptBuilderViewProvider {
     resetSelections();
     document.getElementById('panels').innerHTML = '<div class="empty">Loading…</div>';
     vscode.postMessage({ command: 'refresh' });
+  }
+
+  function createLocalConfig() {
+    vscode.postMessage({ command: 'createLocalConfig' });
+  }
+
+  function editConfig() {
+    vscode.postMessage({ command: 'editConfig' });
   }
 
   function sendToChat() {

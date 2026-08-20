@@ -2,7 +2,7 @@
   "name": "crystal-context",
   "displayName": "Crystal Context",
   "description": "Visually select rules from CLAUDE.md and /skills/ to build prompts",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "engines": {
     "vscode": "^1.85.0"
   },
