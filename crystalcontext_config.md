@@ -1,4 +1,18 @@
-
+---
+id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/crystalcontext_config.md
+type: reference
+title: crystalcontext_config
+name: crystalcontext_config
+description: ''
+resource: /topomorph/apps/VSIX_Crystal_Context/crystalcontext_config.md
+resource_root: C:/GIT
+author: brogers
+tags: [topomorph, apps, vsix-crystal-context, "configuration-driven-ui", "claude-code", "context-management"]
+domain: tools
+tokens: 407
+generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
+okf_version: '0.2'
+---
 ```yaml-table  
 
 Claude Basic:

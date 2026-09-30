@@ -1,3 +1,18 @@
+---
+id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_DEV_WORKFLOW.md
+type: reference
+title: WEBVIEW_DEV_WORKFLOW
+name: WEBVIEW_DEV_WORKFLOW
+description: '**Code_Improver loop (build + all eval gates):** from repo root run `npm run improver:loop`.'
+resource: /topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_DEV_WORKFLOW.md
+resource_root: C:/GIT
+author: brogers
+tags: [topomorph, apps, vsix-crystal-context, dev, "vscode", "webview-debugging", "software-testing"]
+domain: tools
+tokens: 706
+generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
+okf_version: '0.2'
+---
 # Webview debugging workflow (repeatable)
 
 **Code_Improver loop (build + all eval gates):** from repo root run `npm run improver:loop`.

@@ -1,3 +1,18 @@
+---
+id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/readme.md
+type: project-readme
+title: VSIX_Crystal_Context readme
+name: VSIX_Crystal_Context-readme
+description: A customizable Cursor and VSC extension for personal use.
+resource: /topomorph/apps/VSIX_Crystal_Context/readme.md
+resource_root: C:/GIT
+author: brogers
+tags: [topomorph, apps, vsix-crystal-context, "vscode", "hook-automation", "context-management", "claude-code"]
+domain: tools
+tokens: 1040
+generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
+okf_version: '0.2'
+---
 # Crystal Context VSIX extension — Dev Guide
 
 A customizable Cursor and VSC extension for personal use. 

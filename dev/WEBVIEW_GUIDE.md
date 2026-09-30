@@ -1,3 +1,18 @@
+---
+id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_GUIDE.md
+type: reference
+title: WEBVIEW_GUIDE
+name: WEBVIEW_GUIDE
+description: Generic reference for developing, debugging, and troubleshooting webview panels in any VS Code / Cursor extension.
+resource: /topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_GUIDE.md
+resource_root: C:/GIT
+author: brogers
+tags: [topomorph, apps, vsix-crystal-context, dev, "vscode", "webview-debugging", "software-testing"]
+domain: tools
+tokens: 1515
+generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
+okf_version: '0.2'
+---
 # VS Code Extension — Webview Development & Debugging Guide
 
 Generic reference for developing, debugging, and troubleshooting webview panels in any VS Code / Cursor extension.

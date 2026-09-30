@@ -1,3 +1,19 @@
+---
+id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/candidate-memory.md
+type: memory
+title: Vsix Crystal Context
+name: candidate-memory
+description: 'Component type: skill'
+resource: /topomorph/apps/VSIX_Crystal_Context/candidate-memory.md
+resource_root: C:/GIT
+author: brogers
+tags: [topomorph, apps, vsix-crystal-context, "vscode", "webview-debugging", "input-validation"]
+domain: tools
+tokens: 526
+generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
+okf_version: '0.2'
+memory: project
+---
 ## Add "missing/flashing activity bar icon" gotcha to vsix-webview-debugging skill (2026-08-20 12:15)
 
 Component type: skill
