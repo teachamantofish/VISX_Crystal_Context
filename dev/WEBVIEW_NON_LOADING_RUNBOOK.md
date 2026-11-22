@@ -1,13 +1,12 @@
 ---
-id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_NON_LOADING_RUNBOOK.md
-type: reference
+id: /doctools/VSIX_Crystal_Context/dev/WEBVIEW_NON_LOADING_RUNBOOK.md
+type: documentation
 title: WEBVIEW_NON_LOADING_RUNBOOK
 name: WEBVIEW_NON_LOADING_RUNBOOK
 description: This documents failures we have hit repeatedly when the Crystal Context sidebar stayed on **Loading…** or appeared blank, and what prevents them.
-resource: /topomorph/apps/VSIX_Crystal_Context/dev/WEBVIEW_NON_LOADING_RUNBOOK.md
-resource_root: C:/GIT
+resource: /doctools/VSIX_Crystal_Context/dev/WEBVIEW_NON_LOADING_RUNBOOK.md
 author: brogers
-tags: [topomorph, apps, vsix-crystal-context, dev, "vscode", "webview-debugging", "root-cause-analysis"]
+tags: [topomorph, apps, vsix-crystal-context, dev, vscode, webview-debugging, root-cause-analysis]
 domain: tools
 tokens: 1223
 generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}

@@ -1,13 +1,12 @@
 ---
-id: C:/GIT/topomorph/apps/VSIX_Crystal_Context/Code_Improver/codeimproverREADME.md
-type: reference
+id: /doctools/VSIX_Crystal_Context/Code_Improver/codeimproverREADME.md
+type: documentation
 title: codeimproverREADME
 name: codeimproverREADME
-description: Read <root>/codeimproverREADME.md. This project uses a universal improvement plan-"autoresearch-like" loop strategy to fix issues. The loop identifies the problem, fixes the problems one at a time, adds a binary eval, and loops until the eval passes. Then it moves to the next test. The goal is to create better code with each pass *without stopping* and continually add eval tests whenever a problem is found and fixed.
-resource: /topomorph/apps/VSIX_Crystal_Context/Code_Improver/codeimproverREADME.md
-resource_root: C:/GIT
+description: 'Code Improver loop instructions for VSIX Crystal Context: fix one problem at a time, add a binary eval for each fix, and loop until every eval passes.'
+resource: /doctools/VSIX_Crystal_Context/Code_Improver/codeimproverREADME.md
 author: brogers
-tags: [topomorph, apps, vsix-crystal-context, code-improver, "iterative-improvement", "software-testing", "vscode", "webview-debugging"]
+tags: [topomorph, apps, vsix-crystal-context, code-improver, iterative-improvement, software-testing, vscode, webview-debugging, eval-loop, vsix]
 domain: tools
 tokens: 2753
 generated: {by: 'human:brogers', at: '2026-09-10T14:43:17-04:00'}
